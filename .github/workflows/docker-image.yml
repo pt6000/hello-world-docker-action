@@ -33,39 +33,7 @@ jobs:
       run: |
         docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-5:1
         docker push pt6000/dct-demo-5:1
-        
-      #  docker trust signer add --key /keys/server.crt cert_key pt6000/dct-demo-5:1-<<EOF  
-        #docker trust signer add --key /keys/server.crt my_key pt6000/dct-demo-5:1-<<EOF
-    - name: Generate key
-      run: |
-        docker trust key generate test_key_2<<EOF
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-        EOF
-
-    - name: Add Signer
-      run: |
-        docker trust signer add --key /home/runner/work/hello-world-docker-action/hello-world-docker-action/test_key_2.pub test_key_2 pt6000/dct-demo-5:1<<EOF
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-        EOF
-  
-    - name: Tag the signed image
-      run: |
-       docker tag pt6000/dct-demo-5:1 pt6000/dct-demo-5:1-signed
-        
-    - name: Sign the image
-      run: |
-        docker trust sign pt6000/dct-demo-5:1-signed-<<EOF
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-        EOF     
-        
-    - name: Push the signed image
-      run: |    
-        docker push pt6000/dct-demo-5:1-signed
-        
+                
     - name: DCT On
       run: |      
         export DOCKER_CONTENT_TRUST=1  
