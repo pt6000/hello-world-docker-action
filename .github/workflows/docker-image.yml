@@ -55,7 +55,7 @@ jobs:
         
     - name: Sign the image
       run: |
-        docker trust sign pt6000/dct-demo-5:1-signed-<<EOF
+        docker trust sign pt6000/dct-demo-5:1-signed<<EOF
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         EOF     
         
