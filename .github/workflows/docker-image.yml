@@ -41,7 +41,7 @@ jobs:
     - name: Upload image
       uses: ishworkh/docker-image-artifact-upload@v1
       with:
-        image: pt6000/dct-demo-5:1-signed
+        image: pt6000/dct-demo-5:1
         
         
         
