@@ -45,10 +45,10 @@ jobs:
   #docker trust signer add --key /keys/server.crt my_key pt6000/dct-demo-5:1-<<EOF
     - name: Add Signer
       run: |
-        docker trust signer add --key /home/runner/work/hello-world-docker-action/hello-world-docker-action/test_key_1.pub test_key_1 pt6000/dct-demo-5:1<<EOF
+        docker trust signer add --key /home/runner/work/hello-world-docker-action/hello-world-docker-action/test_key_1.pub test_key_1 pt6000/dct-demo-5:1-<<EOF
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}       
+         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         EOF
   
     - name: Tag the signed image
