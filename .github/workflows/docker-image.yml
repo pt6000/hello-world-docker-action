@@ -49,6 +49,7 @@ jobs:
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         EOF
   
     - name: Tag the signed image
