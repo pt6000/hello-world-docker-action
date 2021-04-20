@@ -27,4 +27,4 @@ jobs:
       
     - name: docker push
       run: |
-        docker push pt6000/hello-world-docker-action:latest
+        docker push pt6000/hello-world-docker-action
