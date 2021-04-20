@@ -34,16 +34,18 @@ jobs:
         docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-5:1
         docker push pt6000/dct-demo-5:1
         
+      #  docker trust signer add --key /keys/server.crt cert_key pt6000/dct-demo-5:1-<<EOF       
     - name: Generate key
       run: |
-        docker trust signer add --key /keys/server.crt cert_key pt6000/dct-demo-5:1-<<EOF
+        docker trust key generate test_key_1-<<EOF
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         EOF
  
+  #docker trust signer add --key /keys/server.crt my_key pt6000/dct-demo-5:1-<<EOF
     - name: Add Signer
       run: |
-        docker trust signer add --key /keys/server.crt my_key pt6000/dct-demo-5:1-<<EOF
+        docker trust signer add --key test_key_1.pub test_key_1 pt6000/dct-demo-5:1-<<EOF
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}       
