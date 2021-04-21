@@ -39,10 +39,10 @@ jobs:
         #docker trust signer add --key /keys/server.crt my_key pt6000/dct-demo-5:1-<<EOF
     - name: Generate key
       run: |
-        docker trust key generate test_key_4 
-        echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}"
-        echo "${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}"
-      
+        docker trust key generate test_key_4 <<
+        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        
      
 #    - name: Add signer
 #      run: |
