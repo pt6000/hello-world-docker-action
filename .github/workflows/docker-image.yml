@@ -60,9 +60,15 @@ jobs:
     - name: Add signer
       run: |
         docker trust signer add --key test_key_7.pub test_key_7 pt6000/dct-demo-6:1 <<EOF
-         - ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         - ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         - ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         EOF
        
     - name: Tag the signed image
