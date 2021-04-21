@@ -34,14 +34,21 @@ jobs:
         docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-6:1
         docker push pt6000/dct-demo-6:1
 
+    - name: Generate certificates for next step
+      uses: kofemann/action-create-certificate@v0.0.4
+      with:
+          hostcert: 'hostcert.pem'
+          hostkey:  'hostkey.pem'
+          cachain:  'ca-chain.pem'
 
       #  docker trust signer add --key /keys/server.crt cert_key pt6000/dct-demo-5:1-<<EOF  
         #docker trust signer add --key /keys/server.crt my_key pt6000/dct-demo-5:1-<<EOF
+     #docker trust signer add --key /home/runner/work/hello-world-docker-action/hello-world-docker-action/test_key_6.pub test_key_6 pt6000/dct-demo-6:1 <<EOF
     - name: Generate key
       env:
-        JOB_PASSPHRASS: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        JOB_PASSPHRASS: ${{ secrets.DOCKER_CERT_KEY }}
       run: |
-        docker trust key generate test_key_6 <<EOF
+        docker trust key load hostkey.pem--name hostcert.pem
         $JOB_PASSPHRASS
         $JOB_PASSPHRASS
         EOF
@@ -50,8 +57,10 @@ jobs:
      
     - name: Add signer
       run: |
-        docker trust signer add --key /home/runner/work/hello-world-docker-action/hello-world-docker-action/test_key_6.pub test_key_6 pt6000/dct-demo-6:1 <<EOF
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}      
+        docker trust signer add --key hostcert.pem hostkey.pem pt6000/dct-demo-6:1 <<EOF  
+         ${{ secrets.DOCKER_CERT_KEY }}
+         ${{ secrets.DOCKER_CERT_KEY }}
+         ${{ secrets.DOCKER_CERT_KEY }}
         EOF
   
     - name: Tag the signed image
