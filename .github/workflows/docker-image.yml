@@ -41,8 +41,8 @@ jobs:
       run: |
         docker trust key generate test_key_4
         with:
-            ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-            ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}    
+            password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}    
         
      #   echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
      #   echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
