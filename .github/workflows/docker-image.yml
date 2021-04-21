@@ -53,10 +53,12 @@ jobs:
       env:
         JOB_PASSPHRASS: ${{ secrets.DOCKER_CERT_KEY }}
       run: |
-        docker trust key load hostkey.pem --name cert_key <<EOF    
-          ${{ secrets.DOCKER_CERT_KEY }}
-          ${{ secrets.DOCKER_CERT_KEY }}
-        EOF
+        docker trust key load hostkey.pem 
+     #   --name cert_key 
+     # <<EOF    
+     #     ${{ secrets.DOCKER_CERT_KEY }}
+     #     ${{ secrets.DOCKER_CERT_KEY }}
+     #   EOF
      #   echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
      #   echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
      
