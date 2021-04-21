@@ -52,7 +52,7 @@ jobs:
       env:
         JOB_PASSPHRASS: ${{ secrets.DOCKER_CERT_KEY }}
       run: |
-        docker trust key load hostkey.pem --name hostcert.pem
+        docker trust key load hostkey.pem --name cert_key
         $JOB_PASSPHRASS
         $JOB_PASSPHRASS
         EOF
@@ -61,7 +61,7 @@ jobs:
      
     - name: Add signer
       run: |
-        docker trust signer add --key hostcert.pem hostkey.pem pt6000/dct-demo-6:1 <<EOF  
+        docker trust signer add --key hostcert.pem cert_key pt6000/dct-demo-6:1 <<EOF  
          ${{ secrets.DOCKER_CERT_KEY }}
          ${{ secrets.DOCKER_CERT_KEY }}
          ${{ secrets.DOCKER_CERT_KEY }}
