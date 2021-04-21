@@ -41,10 +41,10 @@ jobs:
       env:
         JOB_PASSPHRASS: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       run: |
-        docker trust key generate test_key_4
+        docker trust key generate test_key_4 <<EOF
         $JOB_PASSPHRASS
-        $JOB_PASSPHRASS   
-        
+        $JOB_PASSPHRASS
+        EOF
      #   echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
      #   echo ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
      
