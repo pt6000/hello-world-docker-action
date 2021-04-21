@@ -39,14 +39,14 @@ jobs:
         #docker trust signer add --key /keys/server.crt my_key pt6000/dct-demo-5:1-<<EOF
     - name: Generate key
       run: |
-        docker trust key generate test_key_4 -<<EOF
+        docker trust key generate test_key_4 <<EOF
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         EOF
      
     - name: Add signer
       run: |
-        docker trust signer add --key /home/runner/work/hello-world-docker-action/hello-world-docker-action/test_key_4.pub test_key_4 pt6000/dct-demo-5:1 -<<EOF
+        docker trust signer add --key /home/runner/work/hello-world-docker-action/hello-world-docker-action/test_key_4.pub test_key_4 pt6000/dct-demo-5:1 <<EOF
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}         
@@ -58,7 +58,7 @@ jobs:
         
     - name: Sign the image
       run: |
-        docker trust sign pt6000/dct-demo-5:1-signed -<<EOF
+        docker trust sign pt6000/dct-demo-5:1-signed <<EOF
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
         EOF     
         
