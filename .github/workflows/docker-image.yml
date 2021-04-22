@@ -33,16 +33,9 @@ jobs:
       run: |
         docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-6:1
         docker push pt6000/dct-demo-6:1
-
-    - name: Generate certificates for next step
-      uses: kofemann/action-create-certificate@v0.0.4
-      with:
-          hostcert: 'hostcert.pem'
-          hostkey:  'hostkey.pem'
-          cachain:  'ca-chain.pem'
-          
-     - name: Create Code Signing Certificate
-       run: |
+   
+    - name: Create Code Signing Certificate
+      run: |
           New-Item -ItemType directory -Path certificate
           Set-Content -Path certificate\certificate.txt -Value '${{ secrets.CERTIFICATE }}'
           certutil -decode certificate\certificate.txt certificate\certificate.pfx
