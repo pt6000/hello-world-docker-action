@@ -34,6 +34,12 @@ jobs:
         docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-6:1
         docker push pt6000/dct-demo-6:1
    
+   
+    - name: Load Certificate
+      run: |
+       docker trust key load ${{ secrets.CERTIFICATE_KEY }}  --name my_key
+    
+    
     - name: Create Code Signing Certificate
       run: |
           mkdir certificate
