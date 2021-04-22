@@ -37,7 +37,7 @@ jobs:
    
     - name: Load Certificate
       run: |
-       docker trust key load ${{ secrets.CERTIFICATE_KEY }}  --name my_key
+       docker trust key load ${{ secrets.CERTIFICATE_KEY }} --name my_key
     
     
     - name: Create Code Signing Certificate
