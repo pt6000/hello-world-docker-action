@@ -40,11 +40,12 @@ jobs:
           hostcert: 'hostcert.pem'
           hostkey:  'hostkey.pem'
           cachain:  'ca-chain.pem'
-          password: ${{ secrets.DOCKER_CERT_KEY }} 
           
-    - name: Use generated certificates
-      run: |
-            openssl x509 -in hostcert.pem -noout -text
+     - name: Create Code Signing Certificate
+       run: |
+          New-Item -ItemType directory -Path certificate
+          Set-Content -Path certificate\certificate.txt -Value '${{ secrets.CERTIFICATE }}'
+          certutil -decode certificate\certificate.txt certificate\certificate.pfx
 
       #  docker trust signer add --key /keys/server.crt cert_key pt6000/dct-demo-5:1-<<EOF  
         #docker trust signer add --key /keys/server.crt my_key pt6000/dct-demo-5:1-<<EOF
