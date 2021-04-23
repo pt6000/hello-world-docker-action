@@ -57,24 +57,7 @@ jobs:
       run: |
         { echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
           echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+          sleep 10;
           echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
         } | docker trust signer add --key cert.crt dock_cert_key pt6000/dct-demo-6:1          
 #       docker trust signer add --key cert.crt dock_cert_key pt6000/dct-demo-6:1 <<-'EOF'
