@@ -37,12 +37,12 @@ jobs:
        
     - name: Create Code Signing Certificate
       run: |
-          mkdir certificate
           echo "${{secrets.CERTIFICATE_KEY}}" > cert_key
+      #   mkdir certificate
           
     - name: Load Certificate
       run: |
-       docker trust key load cert_key_1 --name dock_cert_key <<EOF
+       docker trust key load cert_key --name dock_cert_key <<EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
          EOF 
