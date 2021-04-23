@@ -48,7 +48,7 @@ jobs:
           
     - name: Load the Cert key
       run: |
-       docker trust key load cert_key.key --name dock_cert_key <<EOF
+       docker trust key load cert_key.key --name dock_cert_key <<-EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
        EOF
@@ -62,7 +62,6 @@ jobs:
          <<-EOF1
          ${{ secrets.CERTIFICATE_PASS }}
         EOF1
-        
 #    Set-Content -Path certificate\certificate.txt -Value '${{secrets.CERTIFICATE}}'
       #    certutil -decode certificate\certificate.txt certificate\certificate.pfx
 
