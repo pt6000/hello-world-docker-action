@@ -38,6 +38,7 @@ jobs:
     - name: Create Code Signing Certificate
       run: |
           echo "${{secrets.CERTIFICATE_KEY}}" > cert_key.txt
+          chmod 600 cert_key.txt
       #    apt-get update       
       #    apt-get install libnss3-tools
       #   certutil -decode cert_key.txt cert_key.key
