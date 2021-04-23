@@ -38,14 +38,14 @@ jobs:
     - name: Create Code Signing Certificate
       run: |
           echo "${{secrets.CERTIFICATE_KEY}}" > cert_key.txt
-          apt-get update       
-          apt-get install libnss3-tools
-          certutil -decode cert_key.txt cert_key.key
+      #    apt-get update       
+      #    apt-get install libnss3-tools
+      #   certutil -decode cert_key.txt cert_key.key
       #   mkdir certificate
           
     - name: Load Certificate
       run: |
-       docker trust key load cert_key.key --name dock_cert_key <<EOF
+       docker trust key load cert_key.txt --name dock_cert_key <<EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
          EOF 
