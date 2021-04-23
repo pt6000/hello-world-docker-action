@@ -56,9 +56,9 @@ jobs:
     - name: Add signer
       run: |
         docker trust signer add --key cert.crt dock_cert_key pt6000/dct-demo-6:1 <<-EOF
-          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          ${{ secrets.CERTIFICATE_PASS }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} \
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }} \
+          ${{ secrets.CERTIFICATE_PASS }} \
         EOF
 #    Set-Content -Path certificate\certificate.txt -Value '${{secrets.CERTIFICATE}}'
       #    certutil -decode certificate\certificate.txt certificate\certificate.pfx
