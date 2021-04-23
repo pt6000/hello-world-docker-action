@@ -59,7 +59,7 @@ jobs:
           echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
           sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
           echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-        } | docker trust signer add --key cert_1.crt dock_cert_key_1 pt6000/dct-demo-7:1          
+        } | docker trust signer add --key cert_1.crt dock_cert_key_1 pt6000/dct-demo-7:1         
 #       docker trust signer add --key cert.crt dock_cert_key pt6000/dct-demo-6:1 <<-'EOF'
 #        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 #        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
