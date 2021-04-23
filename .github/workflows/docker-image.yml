@@ -55,7 +55,7 @@ jobs:
          
     - name: Add signer
       run: |
-        docker trust signer add add --key cert.crt dock_cert_key pt6000/dct-demo-6:1 <<EOF
+        docker trust signer add --key cert.crt dock_cert_key pt6000/dct-demo-6:1 <<EOF
           ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
