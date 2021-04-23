@@ -38,11 +38,11 @@ jobs:
     - name: Create Code Signing Certificate
       run: |
           mkdir certificate
-          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key.key
+          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key.pem
           
     - name: Load Certificate
       run: |
-       docker trust key load cert_key.key --name cert_key <<EOF
+       docker trust key load cert_key.pem --name cert_key <<EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
          EOF 
