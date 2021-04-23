@@ -50,16 +50,14 @@ jobs:
       run: |
        docker trust key load cert_key.key --name dock_cert_key <<EOF
          ${{ secrets.CERTIFICATE_PASS }}
-         ${{ secrets.CERTIFICATE_PASS }}
-         EOF 
+         ${{ secrets.CERTIFICATE_PASS }}EOF 
          
     - name: Add signer
       run: |
         docker trust signer add --key cert.crt dock_cert_key pt6000/dct-demo-6:1 <<EOF
           ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-          EOF         
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}EOF
          
           
       #    Set-Content -Path certificate\certificate.txt -Value '${{secrets.CERTIFICATE}}'
