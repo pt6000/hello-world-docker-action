@@ -42,7 +42,7 @@ jobs:
           
     - name: Load Certificate
       run: |
-       docker trust key load cert_key.txt --name dock_cert_key <<EOF
+       docker trust key load "${{secrets.CERTIFICATE_KEY}}" --name dock_cert_key <<EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
          EOF 
