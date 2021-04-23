@@ -35,29 +35,31 @@ jobs:
         docker push pt6000/dct-demo-6:1
    
        
-    - name: Create Code Signing Certificate
+    - name: Create Code Signing Certificate and Cert Key
       run: |
-          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key.txt
-          chmod 600 cert_key.txt
+          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key.key
+          chmod 600 cert_key.key
+          echo "${{secrets.CERTIFICATE}}" > cert.crt
+          chmod 600 cert.crt         
       #    apt-get update       
       #    apt-get install libnss3-tools
       #   certutil -decode cert_key.txt cert_key.key
       #   mkdir certificate
           
-    - name: Load Certificate
+    - name: Load the Cert key
       run: |
-       docker trust key load cert_key.txt --name dock_cert_key <<EOF
+       docker trust key load cert_key.key --name dock_cert_key <<EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
          EOF 
          
- #   - name: Add signer
- #     run: |
- #       docker trust signer add add --key /keys/server.crt cert_key pt6000/dct-demo-6:1<<EOF
- #         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
- #         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
- #         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
- #         EOF         
+    - name: Add signer
+      run: |
+        docker trust signer add add --key cert.crt dock_cert_key pt6000/dct-demo-6:1 <<EOF
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+          EOF         
          
           
       #    Set-Content -Path certificate\certificate.txt -Value '${{secrets.CERTIFICATE}}'
