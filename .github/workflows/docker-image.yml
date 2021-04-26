@@ -35,11 +35,17 @@ jobs:
         docker push pt6000/dct-demo-12:1
         
     - name: Testing phase
-      run: |        
-        sudo mount -t cifs //githubreporelstorage.file.core.windows.net/sharefile . -o vers=3.0,username=githubreporelstorage,password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
-        cp action.yml action_new.yml
-        ls
-
+      run: |  
+        mkdir /TarDir
+        sudo mount -t cifs //githubreporelstorage.file.core.windows.net/sharefile /TarDir -o vers=3.0,username=githubreporelstorage,password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
+    #    cp action.yml action_new.yml
+    #    ls
+    
+    - name: Tar the image
+      run: | 
+        docker save pt6000/dct-demo-12:1 | gzip > test_latest.tar.gz
+        cp test_latest.tar.gz /TarDir
+        
     - name: Create Code Signing Certificate and Cert Key
       run: |
           echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_6.key
