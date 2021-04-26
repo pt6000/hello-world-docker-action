@@ -31,16 +31,16 @@ jobs:
         
     - name: Tag the image
       run: |
-        docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-10:1
-        docker push pt6000/dct-demo-10:1
+        docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-11:1
+        docker push pt6000/dct-demo-11:1
    
        
     - name: Create Code Signing Certificate and Cert Key
       run: |
-          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_4.key
-          chmod 600 cert_key_4.key
-          echo "${{secrets.CERTIFICATE}}" > cert_4.crt
-          chmod 600 cert_4.crt         
+          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_5.key
+          chmod 600 cert_key_5.key
+          echo "${{secrets.CERTIFICATE}}" > cert_5.crt
+          chmod 600 cert_5.crt         
       #    apt-get update       
       #    apt-get install libnss3-tools
       #   certutil -decode cert_key.txt cert_key.key
@@ -48,7 +48,7 @@ jobs:
           
     - name: Load the Cert key
       run: |
-       docker trust key load cert_key_4.key --name dock_cert_key_4 <<-EOF
+       docker trust key load cert_key_5.key --name dock_cert_key_5 <<-EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
        EOF
@@ -59,7 +59,7 @@ jobs:
           echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
           sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
           echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-        } | docker trust signer add --key cert_4.crt dock_cert_key_4 pt6000/dct-demo-10:1         
+        } | docker trust signer add --key cert_5.crt dock_cert_key_5 pt6000/dct-demo-11:1         
 #       docker trust signer add --key cert.crt dock_cert_key pt6000/dct-demo-6:1 <<-'EOF'
 #        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 #        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
@@ -90,18 +90,18 @@ jobs:
        
     - name: Tag the signed image
       run: |
-       docker tag pt6000/dct-demo-10:1 pt6000/dct-demo-10:1-signed
+       docker tag pt6000/dct-demo-11:1 pt6000/dct-demo-11:1-signed
         
     - name: Sign the image
       run: |
-        docker trust sign pt6000/dct-demo-10:1-signed <<EOF
+        docker trust sign pt6000/dct-demo-11:1-signed <<EOF
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          EOF     
         
     - name: Push the signed image
       run: |    
-        docker push pt6000/dct-demo-10:1-signed
+        docker push pt6000/dct-demo-11:1-signed
 
     - name: DCT On
       run: |      
@@ -109,7 +109,7 @@ jobs:
       
     - name: Pull the unsigned image (this will fail) 
       run: |    
-        docker pull pt6000/dct-demo-10:1    
+        docker pull pt6000/dct-demo-11:1    
 
     - name: DCT Off
       run: |      
@@ -117,24 +117,25 @@ jobs:
       
     - name: Pull the unsigned image (this will pass)
       run: |    
-        docker pull pt6000/dct-demo-10:1    
+        docker pull pt6000/dct-demo-11:1    
   
       
     - name: Upload image
       uses: ishworkh/docker-image-artifact-upload@v1
       with:
-        image: pt6000/dct-demo-10:1-signed
+        image: pt6000/dct-demo-11:1-signed
         
         
     - name: Download image
       uses: ishworkh/docker-image-artifact-download@v1
       with:
-        image: pt6000/dct-demo-10:1-signed
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        image: pt6000/dct-demo-11:1-signed
+
         
-    - name: DCT Off
+    - name: Tar the image
       run: |      
-        docker save pt6000/dct-demo-10:1 | gzip > test_latest.tar.gz
-        echo ${{ steps.create_release.outputs.upload_url }}
+        docker save pt6000/dct-demo-11:1 | gzip > test_latest.tar.gz
+        ll
+
         
         
