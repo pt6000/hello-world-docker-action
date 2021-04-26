@@ -36,7 +36,7 @@ jobs:
         
     - name: Testing phase
       run: |        
-        $ sudo mount -t cifs //githubreporelstorage.file.core.windows.net/sharefile . -o vers=3.0,username=githubreporelstorage,password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
+        mount -t cifs //githubreporelstorage.file.core.windows.net/sharefile . -o vers=3.0,username=githubreporelstorage,password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
         cp action.yml action_new.yml
         ls
 
