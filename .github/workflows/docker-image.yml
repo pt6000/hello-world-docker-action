@@ -33,6 +33,7 @@ jobs:
       run: |
         docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-11:1
         docker push pt6000/dct-demo-11:1
+        ls
    
        
     - name: Create Code Signing Certificate and Cert Key
