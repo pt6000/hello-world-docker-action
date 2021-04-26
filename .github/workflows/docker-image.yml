@@ -107,7 +107,7 @@ jobs:
       run: |      
         export DOCKER_CONTENT_TRUST=1  
       
-    - name: Pull the unsigned image (this will fail)
+    - name: Pull the unsigned image (this will fail) 
       run: |    
         docker pull pt6000/dct-demo-9:1    
 
