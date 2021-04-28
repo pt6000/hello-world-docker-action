@@ -39,12 +39,34 @@ jobs:
       run: |  
         sudo mkdir /TarDir
         sudo mount -t cifs //githubreporelstorage.file.core.windows.net/sharefile /TarDir -o vers=3.0,username=githubreporelstorage,password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
-    #    cp action.yml action_new.yml
-    #    ls
+          
 
+    - name: Create Code Signing Certificate and Cert Key
+      run: |
+          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_16.key
+          chmod 600 cert_key_16.key
+          echo "${{secrets.CERTIFICATE}}" > cert_16.crt
+          chmod 600 cert_16.crt         
+
+          
+    - name: Load the Cert key
+      run: |
+       docker trust key load cert_key_16.key --name dock_cert_key_16 <<-EOF
+         ${{ secrets.CERTIFICATE_PASS }}
+         ${{ secrets.CERTIFICATE_PASS }}
+       EOF
+       
+    - name: Add signer
+      run: |
+        { echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+          sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
+        } | docker trust signer add --key cert_16.crt dock_cert_key_16 pt6000/dct-demo-24:1         
+    
     - name: Tar and copy the image for transferring
       run: | 
         docker save pt6000/dct-demo-24:1 | gzip > dct-demo-24:1.tar.gz
         cp dct-demo-24:1.tar.gz /TarDir
           
-  
+ 
