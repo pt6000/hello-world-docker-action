@@ -34,7 +34,6 @@ jobs:
         docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-24:1
         docker push pt6000/dct-demo-24:1
 
-
     - name: Link to the network drive
       run: |  
         sudo mkdir /TarDir
