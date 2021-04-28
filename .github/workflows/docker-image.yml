@@ -31,9 +31,23 @@ jobs:
         
     - name: Tag the image
       run: |
-        docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-19:1
-        docker push pt6000/dct-demo-19:1
-        
+        docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-20:1
+        docker push pt6000/dct-demo-20:1
+      
+
+    - name: Link to the network drive
+      run: |  
+        sudo mkdir /TarDir
+        sudo mount -t cifs //githubreporelstorage.file.core.windows.net/sharefile /TarDir -o vers=3.0,username=githubreporelstorage,password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
+    #    cp action.yml action_new.yml
+    #    ls
+    
+    - name: Tar and copy the image for transferring
+      run: | 
+        docker save pt6000/dct-demo-20:1 | gzip > dct-demo-20:1.tar.gz
+        cp dct-demo-20:1.tar.gz /TarDir      
+
+      
  #   - name: Testing phase
  #     run: |  
  #       sudo mkdir /TarDir
@@ -45,115 +59,4 @@ jobs:
 #      run: | 
 #        docker save pt6000/dct-demo-12:1 | gzip > test_latest.tar.gz
 #        cp test_latest.tar.gz /TarDir
-        
-    - name: Create Code Signing Certificate and Cert Key
-      run: |
-          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_13.key
-          chmod 600 cert_key_13.key
-          echo "${{secrets.CERTIFICATE}}" > cert_13.crt
-          chmod 600 cert_13.crt         
-      #    apt-get update       
-      #    apt-get install libnss3-tools
-      #   certutil -decode cert_key.txt cert_key.key
-      #   mkdir certificate
-          
-    - name: Load the Cert key
-      run: |
-       docker trust key load cert_key_13.key --name dock_cert_key_13 <<-EOF
-         ${{ secrets.CERTIFICATE_PASS }}
-         ${{ secrets.CERTIFICATE_PASS }}
-       EOF
-       
-    - name: Add signer
-      run: |
-        { echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-        } | docker trust signer add --key cert_13.crt dock_cert_key_13 pt6000/dct-demo-19:1         
-#       docker trust signer add --key cert.crt dock_cert_key pt6000/dct-demo-6:1 <<-'EOF'
-#        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-#        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-#        ${{ secrets.CERTIFICATE_PASS }}
-#        EOF
-              
-#    Set-Content -Path certificate\certificate.txt -Value '${{secrets.CERTIFICATE}}'
-      #    certutil -decode certificate\certificate.txt certificate\certificate.pfx
 
-      #  docker trust signer add --key /keys/server.crt cert_key pt6000/dct-demo-5:1-<<EOF  
-        #docker trust signer add --key /keys/server.crt my_key pt6000/dct-demo-5:1-<<EOF
-     #docker trust signer add --key /home/runner/work/hello-world-docker-action/hello-world-docker-action/test_key_6.pub test_key_6 pt6000/dct-demo-6:1 <<EOF
- #   - name: Generate key
- #     run: |
- #       docker trust key generate test_key_7 <<EOF
- #        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
- #        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
- #        EOF
-         
-         
-#    - name: Add signer
-#      run: |
-#        docker trust signer add --key test_key_7.pub test_key_7 pt6000/dct-demo-6:1 <<EOF
-#          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-#          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-#          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-#          EOF
-       
-    - name: Tag the signed image
-      run: |
-       docker tag pt6000/dct-demo-19:1 pt6000/dct-demo-19:1-signed
-        
-    - name: Sign the image
-      run: |
-        docker trust sign pt6000/dct-demo-19:1-signed <<EOF
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         EOF     
-        
-    - name: Push the signed image
-      run: |    
-        docker push pt6000/dct-demo-19:1-signed
-
-    - name: DCT On
-      run: |      
-        export DOCKER_CONTENT_TRUST=1  
-      
-    - name: Pull the unsigned image (fail) 
-      run: |    
-        docker pull pt6000/dct-demo-19:1    
-
-  #  - name: DCT Off
-  #    run: |      
-  #      export DOCKER_CONTENT_TRUST=0 
-      
-  #  - name: Pull the unsigned image (pass)
-  #    run: |    
-  #      docker pull pt6000/dct-demo-17:1    
-  
-      
-    - name: Upload image
-      uses: ishworkh/docker-image-artifact-upload@v1
-      with:
-        image: pt6000/dct-demo-19:1-signed
-        
-    - name: Upload image
-      uses: ishworkh/docker-image-artifact-upload@v1
-      with:
-        image: pt6000/dct-demo-19:1       
-        
-
-    - name: Link to the network drive
-      run: |  
-        sudo mkdir /TarDir
-        sudo mount -t cifs //githubreporelstorage.file.core.windows.net/sharefile /TarDir -o vers=3.0,username=githubreporelstorage,password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
-    #    cp action.yml action_new.yml
-    #    ls
-    
-    - name: Tar and copy the image for transferring
-      run: | 
-        docker save pt6000/dct-demo-19:1-signed | gzip > dct-demo-19:1-signed.tar.gz
-        docker save pt6000/dct-demo-19:1 | gzip > dct-demo-19:1.tar.gz
-        cp dct-demo-19:1-signed.tar.gz /TarDir
-        cp dct-demo-19:1.tar.gz /TarDir
-        ls
-        echo "$DOCKER_CONTENT_TRUST"
