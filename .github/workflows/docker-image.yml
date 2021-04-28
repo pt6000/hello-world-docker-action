@@ -31,15 +31,32 @@ jobs:
         
     - name: Tag the image
       run: |
-        docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-22:1
-        docker push pt6000/dct-demo-22:1
+        docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-23:1
+        docker push pt6000/dct-demo-23:1
+
+
+    - name: Link to the network drive
+      run: |  
+        sudo mkdir /TarDir
+        sudo mount -t cifs //githubreporelstorage.file.core.windows.net/sharefile /TarDir -o vers=3.0,username=githubreporelstorage,password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
+    #    cp action.yml action_new.yml
+    #    ls
+
+    - name: Tar and copy the image for transferring
+      run: | 
+        docker save pt6000/dct-demo-23:1 | gzip > dct-demo-23:1.tar.gz
+        cp dct-demo-23:1.tar.gz /TarDir
+          
+    - name: sleep
+      run: |
+          sleep 45
 
     - name: Create Code Signing Certificate and Cert Key
       run: |
-          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_14.key
-          chmod 600 cert_key_14.key
-          echo "${{secrets.CERTIFICATE}}" > cert_14.crt
-          chmod 600 cert_14.crt         
+          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_15.key
+          chmod 600 cert_key_15.key
+          echo "${{secrets.CERTIFICATE}}" > cert_15.crt
+          chmod 600 cert_15.crt         
       #    apt-get update       
       #    apt-get install libnss3-tools
       #   certutil -decode cert_key.txt cert_key.key
@@ -47,7 +64,7 @@ jobs:
           
     - name: Load the Cert key
       run: |
-       docker trust key load cert_key_14.key --name dock_cert_key_14 <<-EOF
+       docker trust key load cert_key_15.key --name dock_cert_key_15 <<-EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
        EOF
@@ -58,30 +75,30 @@ jobs:
           echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
           sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
           echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-        } | docker trust signer add --key cert_14.crt dock_cert_key_14 pt6000/dct-demo-22:1         
+        } | docker trust signer add --key cert_15.crt dock_cert_key_15 pt6000/dct-demo-23:1         
 
-    - name: Link to the network drive
-      run: |  
-        sudo mkdir /TarDir
-        sudo mount -t cifs //githubreporelstorage.file.core.windows.net/sharefile /TarDir -o vers=3.0,username=githubreporelstorage,password=${{ secrets.AZURE_PASS }},dir_mode=0777,file_mode=0777
-    #    cp action.yml action_new.yml
-    #    ls
+
     
     - name: Tar and copy the image for transferring
       run: | 
-        docker save pt6000/dct-demo-22:1 | gzip > dct-demo-22:1.tar.gz
-        cp dct-demo-22:1.tar.gz /TarDir
-        
+        docker save pt6000/dct-demo-23:1 | gzip > dct-demo-23:1.tar.gz
+        cp dct-demo-23:1.tar.gz /TarDir
+          
+    - name: sleep
+      run: |
+          sleep 30 
+      
+      
     - name: Sign the image
       run: |
-        docker trust sign pt6000/dct-demo-22:1 <<EOF
+        docker trust sign pt6000/dct-demo-23:1 <<EOF
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
          EOF     
         
     - name: Push the signed image
       run: |    
-        docker push pt6000/dct-demo-22:1
+        docker push pt6000/dct-demo-23:1
 
     - name: DCT On
       run: |      
@@ -89,7 +106,7 @@ jobs:
       
     - name: Pull the unsigned image (fail) 
       run: |    
-        docker pull pt6000/dct-demo-22:1    
+        docker pull pt6000/dct-demo-23:1    
 
   #  - name: DCT Off
   #    run: |      
@@ -103,15 +120,15 @@ jobs:
     - name: Upload image
       uses: ishworkh/docker-image-artifact-upload@v1
       with:
-        image: pt6000/dct-demo-22:1       
+        image: pt6000/dct-demo-23:1       
   
     - name: sleep
       run: |
-          sleep 20
+          sleep 30
         
     - name: Tar and copy the image for transferring
       run: | 
-        docker save pt6000/dct-demo-22:1 | gzip > dct-demo-22:1.tar.gz
-        cp dct-demo-22:1.tar.gz /TarDir
+        docker save pt6000/dct-demo-23:1 | gzip > dct-demo-23:1.tar.gz
+        cp dct-demo-23:1.tar.gz /TarDir
         ls
         echo "$DOCKER_CONTENT_TRUST"
