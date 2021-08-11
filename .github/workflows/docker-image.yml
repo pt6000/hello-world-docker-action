@@ -31,8 +31,8 @@ jobs:
         
     - name: Tag the image
       run: |
-        docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-40:1
-        docker push pt6000/dct-demo-40:1
+        docker tag pt6000/hello-world-docker-action:latest pt6000/dct-demo-41:1
+        docker push pt6000/dct-demo-41:1
         
  #   - name: Testing phase
  #     run: |  
@@ -48,10 +48,10 @@ jobs:
         
     - name: Create Code Signing Certificate and Cert Key
       run: |
-          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_31.key
-          chmod 600 cert_key_31.key
-          echo "${{secrets.CERTIFICATE}}" > cert_31.crt
-          chmod 600 cert_31.crt         
+          echo "${{secrets.CERTIFICATE_KEY}}" > cert_key_41.key
+          chmod 600 cert_key_41.key
+          echo "${{secrets.CERTIFICATE}}" > cert_41.crt
+          chmod 600 cert_41.crt         
       #    apt-get update       
       #    apt-get install libnss3-tools
       #   certutil -decode cert_key.txt cert_key.key
@@ -59,18 +59,18 @@ jobs:
           
     - name: Load the Cert key
       run: |
-       docker trust key load cert_key_31.key --name dock_cert_key_31 <<-EOF
+       docker trust key load cert_key_41.key --name dock_cert_key_41 <<-EOF
          ${{ secrets.CERTIFICATE_PASS }}
          ${{ secrets.CERTIFICATE_PASS }}
        EOF
        
     - name: Add signer
       run: |
-        { echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}';
-        } | docker trust signer add --key cert_31.crt dock_cert_key_31 pt6000/dct-demo-40:1         
+        { echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN_1 }}';
+          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN_1 }}';
+          sleep 15 && echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN_1 }}';
+          echo '${{ secrets.DOCKER_HUB_ACCESS_TOKEN_1 }}';
+        } | docker trust signer add --key cert_41.crt dock_cert_key_41 pt6000/dct-demo-41:1         
 #       docker trust signer add --key cert.crt dock_cert_key pt6000/dct-demo-6:1 <<-'EOF'
 #        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 #        ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
@@ -101,44 +101,44 @@ jobs:
        
     - name: Tag the signed image
       run: |
-       docker tag pt6000/dct-demo-40:1 pt6000/dct-demo-40:1-signed
+       docker tag pt6000/dct-demo-41:1 pt6000/dct-demo-41:1-signed
 
     - name: Sign the image
       run: |
-        docker trust sign pt6000/dct-demo-40:1-signed <<EOF
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+        docker trust sign pt6000/dct-demo-41:1-signed <<EOF
+         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN_1 }}
+         ${{ secrets.DOCKER_HUB_ACCESS_TOKEN_1 }}
          EOF     
         
     - name: Push the signed image
       run: |    
-        docker push pt6000/dct-demo-40:1-signed
+        docker push pt6000/dct-demo-41:1-signed
     - name: DCT On
       run: |      
         export DOCKER_CONTENT_TRUST=1  
       
     - name: Pull the unsigned image (fail) 
       run: |    
-        docker pull pt6000/dct-demo-40:1    
+        docker pull pt6000/dct-demo-41:1    
     - name: DCT Off
       run: |      
         export DOCKER_CONTENT_TRUST=0 
       
     - name: Pull the unsigned image (pass)
       run: |    
-        docker pull pt6000/dct-demo-40:1    
+        docker pull pt6000/dct-demo-41:1    
   
       
     - name: Upload image
       uses: ishworkh/docker-image-artifact-upload@v1
       with:
-        image: pt6000/dct-demo-40:1-signed
+        image: pt6000/dct-demo-41:1-signed
         
         
     - name: Download image
       uses: ishworkh/docker-image-artifact-download@v1
       with:
-        image: pt6000/dct-demo-40:1-signed
+        image: pt6000/dct-demo-41:1-signed
 
     - name: Link to the network drive
       run: |  
@@ -149,5 +149,5 @@ jobs:
     
     - name: Tar and copy the image for transferring
       run: | 
-        docker save pt6000/dct-demo-40:1-signed | gzip > dct-demo-40:1-signed.tar.gz
-        cp dct-demo-40:1-signed.tar.gz /TarDir
+        docker save pt6000/dct-demo-41:1-signed | gzip > dct-demo-41:1-signed.tar.gz
+        cp dct-demo-41:1-signed.tar.gz /TarDir
